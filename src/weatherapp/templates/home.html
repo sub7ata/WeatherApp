@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+  {% if message %}
+     <div class="alert alert-{{ message_class }} alert-dismissible fade show" role="alert">
+  <strong></strong> {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  {% endif %}
+
+
+  <div class="row"  style="margin-bottom:20px;">
+    <div class="col-md-4 offset-md-4">
+      <form class="form-inline my-2 my-lg-0" method="POST" >
+        {% csrf_token %}
+        {{form.name}}
+        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Add City</button>
+      
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    {% for city_weather in weather_data %}
+      <div class="col">
+      
+        <div class="card" style="width: 15rem; margin-bottom: 18px;">
+
+        <a class="float-right" href="{% url 'delete_city' city_weather.city %}" role="button"><i class="fa fa-trash-o" style="font-size:22px;color:red;padding-left: 210px;
+    padding-top: 9px;"></i></a>
+
+          {% comment %} <button type="button" href="{% url 'delete_city' city_weather.city %}" class="close" data-dismiss="alert" aria-label="Close" style="padding-left:210px">
+      <span aria-hidden="true">&times;</span>
+    </button> {% endcomment %}
+          <!-- <img src="..." class="card-img-top" alt="..."> -->
+          <img src="http://api.openweathermap.org/img/w/{{ city_weather.icon }}" alt="Image" width="50" height="50">
+          
+          <div class="card-body">
+            <h5 class="card-title"><b>{{ city_weather.city }}</b></h5>
+            <p class="card-text">{{ city_weather.temperature }} &#x2109;</p>
+            <p>{{ city_weather.description }}</p>
+                {% comment %} <div class="media-right">
+                    <a href="{% url 'delete_city' city_weather.city %}">
+                        <button class="delete"></button>
+                    </a>
+                </div> {% endcomment %}
+                
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock content %}
